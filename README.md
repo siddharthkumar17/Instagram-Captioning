@@ -8,3 +8,5 @@
 This is an example of the output run on the Instagram profile "Photos":
 
 ![Alt text](captions.png)
+
+As you can see, the captioning does not work for certain pictures, usually ones that are just pictures of scenery without a defined subject or selfies.
