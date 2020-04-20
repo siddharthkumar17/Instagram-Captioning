@@ -13,20 +13,20 @@ class Scraper:
        
         self.USERNAME = user_name
         
-        self.URL = 'https://www.instagram.com/' + USERNAME 
+        self.URL = 'https://www.instagram.com/' + self.USERNAME 
         self.WAIT_TIME = wait_time
         self.MAX_PAGES = max_pages
 
         
-    def scrape(self):
+    def scrape(self, user_agent = 'Mozilla/5.0'):
         s = requests.Session()
-        s.headers['user-agent'] = 'Mozilla/5.0'
+        s.headers['user-agent'] = user_agent
         end_cursor = ''
         images = []
 
-        for x in range(MAX_PAGES):
+        for x in range(self.MAX_PAGES):
 
-            r    = s.get(URL)
+            r    = s.get(self.URL)
             data = re.search(r'window._sharedData = (\{.+?});</script>', r.text).group(1)
 
             j = json.loads(data)
@@ -41,7 +41,7 @@ class Scraper:
             if not end:
                 break
             else:
-                time.sleep(WAIT_TIME)
+                time.sleep(self.WAIT_TIME)
         s.close()
         return images
 
@@ -50,7 +50,7 @@ class Scraper:
         output_path=[]
         if path=='':
             for x in range(len(images)):
-                output_path .append( 'img/'+USERNAME+'_IMG_'+str(x)+'.jpg' )
+                output_path .append( 'img/'+self.USERNAME+'_IMG_'+str(x)+'.jpg' )
         else:
             for x in range(len(images)):
                 output_path .append( path+str(x)+'.jpg' )
@@ -59,5 +59,5 @@ class Scraper:
         for x in range(len(images)):
             urllib.request.urlretrieve(images[x],output_path[x])
             
-        return 0
+        return output_path
         

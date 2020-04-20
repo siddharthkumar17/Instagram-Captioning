@@ -9,12 +9,13 @@ from build_vocab import Vocabulary
 from model import EncoderCNN, DecoderRNN
 from PIL import Image
 
-
+import json
 
 class Caption:
     def __init__(self):
         # Device configuration
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.DEFAULT_OUTPUT_PATH = 'captions.json'
         
     
 
@@ -29,7 +30,10 @@ class Caption:
         return image
 
 
-    def getCaption(self, imgs, output_path, vocab_path='data/vocab.pkl', decoder_path = 'models/decoder-5-3000.pkl', encoder_path = 'models/encoder-5-3000.pkl', embed_size = 256, hidden_size = 512, num_layers= 1):
+    def getCaption(self, imgs, output_path='', vocab_path='data/vocab.pkl', decoder_path = 'models/decoder-5-3000.pkl', encoder_path = 'models/encoder-5-3000.pkl', embed_size = 256, hidden_size = 512, num_layers= 1):
+        if(output_path==''):
+            output_path=self.DEFAULT_OUTPUT_PATH
+        device = self.device
         transform = transforms.Compose([
             transforms.ToTensor(), 
             transforms.Normalize((0.485, 0.456, 0.406), 
@@ -48,12 +52,12 @@ class Caption:
         # Load the trained model parameters
         encoder.load_state_dict(torch.load(encoder_path))
         decoder.load_state_dict(torch.load(decoder_path))
-
+ 
         CAPTIONS = []
 
         for img in imgs:
             # Prepare an image
-            image = load_image(img, transform)
+            image = self.load_image(img, transform=transform)
             image_tensor = image.to(device)
             
             # Generate an caption from the image
@@ -72,3 +76,21 @@ class Caption:
             
             # Print out the image and the generated caption
             CAPTIONS.append(sentence)
+        
+        json_captions = self.writeJSON(imgs, CAPTIONS, output_path=output_path)
+
+        return json_captions
+    
+    def writeJSON(self, imgs, captions, output_path=''):
+        if(output_path==''):
+            output_path=self.DEFAULT_OUTPUT_PATH
+            
+        j = dict()
+
+        for x in range(len(imgs)):
+            j[imgs[x]] = captions[x]
+        
+        with open(output_path, 'w') as outfile:
+            json.dump(j, outfile)
+        
+        return j
