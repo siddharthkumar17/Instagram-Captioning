@@ -75,11 +75,17 @@ class Caption:
             sentence = ' '.join(sampled_caption)
             
             # Print out the image and the generated caption
-            CAPTIONS.append(sentence)
+            CAPTIONS.append(self.prune_caption(sentence))
         
         json_captions = self.writeJSON(imgs, CAPTIONS, output_path=output_path)
 
         return json_captions
+
+    def prune_caption(self,sentence):
+        s = sentence.strip()
+        words = s.split(' ', 1)[1].rsplit(' ', 1)[0]
+        return ''.join(words)
+
     
     def writeJSON(self, imgs, captions, output_path=''):
         if(output_path==''):

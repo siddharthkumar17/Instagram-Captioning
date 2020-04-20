@@ -2,6 +2,7 @@ from nn_captioner import Caption
 from scrapeIG import Scraper
 from build_vocab import Vocabulary
 import argparse
+from skimage import io
 
 
 def main(args):
@@ -18,12 +19,14 @@ def main(args):
     captions = captioner.getCaption(image_paths, output_path=args.output_path)
 
     print(captions)
+    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--user_name', type=str, required=False, default='photos', help = 'user name to caption')
     parser.add_argument('--output_path', type=str, required=False, default='', help = 'path for output file')
+    parser.add_argument('--show_output', type=bool, required=False, default=True, help = 'output images?')
 
     args = parser.parse_args()
     main(args)
