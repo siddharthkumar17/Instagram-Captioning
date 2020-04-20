@@ -4,3 +4,7 @@
  Models are pretrained and can be found at https://github.com/yunjey/pytorch-tutorial/tree/master/tutorials/03-advanced/image_captioning.
  
  The model files themselves are not included but they can be downloaded from the link above.
+
+This is an example of the output run on the Instagram profile "Photos":
+
+![Alt text](caption.png)
