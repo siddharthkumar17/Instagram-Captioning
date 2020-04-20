@@ -9,12 +9,13 @@ from build_vocab import Vocabulary
 from model import EncoderCNN, DecoderRNN
 from PIL import Image
 
-
+IMAGE = "example.png"
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def load_image(image_path, transform=None):
     image = Image.open(image_path).convert('RGB')
+    image.load()
     image = image.resize([224, 224], Image.LANCZOS)
     
     if transform is not None:
@@ -44,7 +45,7 @@ def main(args):
     decoder.load_state_dict(torch.load(args.decoder_path))
 
     # Prepare an image
-    image = load_image(args.image, transform)
+    image = load_image(IMAGE, transform)
     image_tensor = image.to(device)
     
     # Generate an caption from the image
@@ -63,12 +64,12 @@ def main(args):
     
     # Print out the image and the generated caption
     print (sentence)
-    image = Image.open(args.image)
+    image = Image.open(IMAGE)
     plt.imshow(np.asarray(image))
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image', type=str, required=True, help='input image for generating caption')
+    parser.add_argument('--image', type=str, required=False, help='input image for generating caption')
     parser.add_argument('--encoder_path', type=str, default='models/encoder-5-3000.pkl', help='path for trained encoder')
     parser.add_argument('--decoder_path', type=str, default='models/decoder-5-3000.pkl', help='path for trained decoder')
     parser.add_argument('--vocab_path', type=str, default='data/vocab.pkl', help='path for vocabulary wrapper')
