@@ -7,4 +7,4 @@
 
 This is an example of the output run on the Instagram profile "Photos":
 
-![Alt text](caption.png)
+![Alt text](captions.png)
