@@ -12,11 +12,6 @@ def displayImages(imgs,captions, output_path):
     for img_path in imgs:
         images.append(mpimg.imread(img_path))
         
-#     plt.figure(figsize=(20,10))
-#     columns = 4
-#     for i, image in enumerate(images):
-#         plt.subplot(len(images) / columns + 1, columns, i + 1)
-#         plt.imshow(image)
     fig, axs = plt.subplots(nrows=3, ncols=4, figsize=(40, 30), subplot_kw={'xticks': [], 'yticks': []})
     x=0
     for ax, img in zip(axs.flat, images):
