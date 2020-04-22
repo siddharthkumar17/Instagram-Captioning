@@ -1,3 +1,4 @@
-/models
+/models/*
+!/models/.model
 /img/*
 !img/example.png

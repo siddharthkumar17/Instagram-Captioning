@@ -84,7 +84,11 @@ class Caption:
     def prune_caption(self,sentence):
         s = sentence.strip()
         words = s.split(' ', 1)[1].rsplit(' ', 1)[0]
-        return ''.join(words)
+    
+        if words[-1] == '.':
+            words = words[:-1]
+
+        return words.strip()
 
     
     def writeJSON(self, imgs, captions, output_path=''):
