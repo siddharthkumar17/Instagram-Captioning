@@ -15,4 +15,4 @@ In order to run on your machine:
 
 1. Clone the repo
 2. Download the models from https://www.dropbox.com/s/ne0ixz5d58ccbbz/pretrained_model.zip?dl=0 and place them into /models
-3. Run captionIG.py with **python captionIG.py --user_name=[Instagram Username] --output_path=[path to output image]
+3. Run captionIG.py with **python captionIG.py --user_name=[Instagram Username] --output_path=[path to output image]**
